@@ -13,20 +13,22 @@ action = require('../actions')
             console.log('Loading Test...')
             
         });
+ 
 
-
-        it('Get url', async function(){
+        it('Get url', async function(done){
+            //console.log('Getting url...')
             await action.getURL('http://iecr.softalliance.com');
-            // done()
+            console.log('passed this area')
+            done()
         });
 
-        it('Check title should be "Nothing"', async function(){
+        it('Check title should be "-"', async function(){
             await action.checkTitle('-')
         });
 
          it('Enter Number into Phone Number field', async function(){
             
-            await action.enterText('name','phone_number', '07070505031')
+            await action.enterText('name', 'phone_number', '07070505031')
         });
         
         it('Enter Pin into Pin Code field', async function(){
@@ -43,7 +45,7 @@ action = require('../actions')
         });
         
         it('"Dashboard" Loaded', async function(){
-            await action.findText('css', '#base-layout > main > div > div > div > div.v-card__title.red.darken-2.white--text.v-card__title--primary > h3', 'dashboard')
+            await action.findText('css', '#base-layout > main > div > div > div > div.v-card__title.red.darken-2.white--text.v-card__title--primary > h3', 'Dashboard')
         });
         // #base-layout > main > div > div > div > div.layout.row > div > div:nth-child(1)
         // #base-layout > main > div > div > div > div.layout.row > div > div:nth-child(1) > div:nth-child(1)

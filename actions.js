@@ -14,13 +14,14 @@ module.exports={
 launchBrowser: async ()=>{
      driver = await initDrive.initiateDriver()
   
-  //  driver.manage().window().maximize()  
-
+  //  driver.manage().window().maximize
 },
 
 getURL: async (arg)=>{
-  await driver.get(arg)
+    console.log('arg===> '+arg)
+    await driver.get(arg)
     .then(()=>{
+        console.log('====>2')
         return driver.getCurrentUrl();
     })
     .then((currentUrl)=>{

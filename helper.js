@@ -1,7 +1,7 @@
 webdriver = require('selenium-webdriver');
 By = webdriver.By
 
-module.exports={
+module.exports={ 
 
     findElement: (type, element)=>{
         // console.log('here',type, element)
