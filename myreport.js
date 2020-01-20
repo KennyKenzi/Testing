@@ -4,7 +4,7 @@ module.exports = MyReporter;
 
 function MyReporter(runner) {
 
-console.log('heeeeeeeeeeeeeeeeeeeeeeeeee')
+console.log('heeeeeeeeeeeeeee')
 
   mocha.reporters.Base.call(this, runner);
   var passes = 0;
