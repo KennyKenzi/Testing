@@ -15,11 +15,10 @@ action = require('../actions')
         });
  
 
-        it('Get url', async function(done){
+        it('Get url', async function(){
             //console.log('Getting url...')
             await action.getURL('http://iecr.softalliance.com');
-            console.log('passed this area')
-            done()
+        // done()
         });
 
         it('Check title should be "-"', async function(){
