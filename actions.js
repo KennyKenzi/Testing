@@ -13,19 +13,16 @@ module.exports={
 //launchbrowser
 launchBrowser: async ()=>{
      driver = await initDrive.initiateDriver()
-  
-  //  driver.manage().window().maximize
+    //  driver.manage().window().maximize
+   //driver = await new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
 },
 
+
 getURL: async (arg)=>{
-    console.log('arg===> '+arg)
+    
     await driver.get(arg)
     .then(()=>{
-        console.log('====>2')
         return driver.getCurrentUrl();
-    })
-    .then((currentUrl)=>{
-    // work with the current url of browser
     })
 },
 

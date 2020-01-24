@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests/testone.js"
+    "login": "mocha tests/login.js",
+    "createUser": "mocha tests/createUser.js",
+    "registerBusiness": "mocha tests/registerBuisiness.js"
   },
   "author": "",
   "license": "ISC",
