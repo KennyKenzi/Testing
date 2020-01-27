@@ -18,12 +18,19 @@ launchBrowser: async ()=>{
 },
 
 
-getURL: async (arg)=>{
+getURL: async (url, title)=>{
     
-    await driver.get(arg)
-    .then(()=>{
-        return driver.getCurrentUrl();
+    await driver.get(url)
+    // .then((res)=>{
+    //     //return driver.getCurrentUrl();
+    //     console.log('res==>', res)
+    //   // console.log('err==>', err)
+    // })
+    await  driver.executeScript("return document.title;")
+    .then(function(return_value){
+        assert.equal(return_value, title)             
     })
+
 },
 
 
