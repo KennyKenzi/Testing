@@ -18,25 +18,20 @@ launchBrowser: async ()=>{
 },
 
 
-getURL: async (url, title)=>{
+getURL: async (url)=>{
     
     await driver.get(url)
-    // .then((res)=>{
-    //     //return driver.getCurrentUrl();
-    //     console.log('res==>', res)
-    //   // console.log('err==>', err)
-    // })
-    await  driver.executeScript("return document.title;")
-    .then(function(return_value){
-        assert.equal(return_value, title)             
+    .then(()=>{
+        return driver.getCurrentUrl();
     })
+
 
 },
 
 
 
 //gets the title of current page, takes in the title arg asserts a comparison
-checkTitle: async(arg)=>{
+checkTitle: async(title)=>{
     await  driver.executeScript("return document.title;")
             .then(function(return_value){
                 assert.equal(return_value, arg)             
