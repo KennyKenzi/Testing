@@ -34,18 +34,22 @@ getURL: async (url)=>{
     // })
 },
 
-passedTest: async(title)=>{
-        return{
-            Step: title,
-            Status: "Pass"
-        }
-},
-failedTest: async(title, error)=>{
-    return{
-        Step: title,
-        Status: "Failed",
-        Reason: error
-    }
+
+//just to test saving test cases
+createTestObject:(testarr)=>{
+    var data = []
+
+    testarr.forEach(element => {
+        obj = {
+            title: element.title,
+            duration: element.duration,
+            status: element.state,
+            // message: element.err.message
+       }
+       data.push(obj)
+    });
+    console.log('tests=====>', data)
+
 },
 
 
@@ -99,7 +103,6 @@ clickElement:async(type, element)=>{
 wait: async(time)=>{
     await driver.sleep(time)
 },
-
 
 
 
