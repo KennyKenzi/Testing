@@ -75,7 +75,14 @@ module.exports = {
         }, 50000);
     },
 
-    savetoDB: ()=>{
+    savetoDB: (testName, timeStarted, status)=>{
+
+        const info = {
+            testName,
+            timeStarted,
+            status
+        }
+        console.log(info)
     },
 
     errorroutine: function (err) {

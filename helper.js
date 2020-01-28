@@ -1,5 +1,7 @@
 webdriver = require('selenium-webdriver');
 By = webdriver.By
+var until = require('selenium-webdriver').until;
+
 
 module.exports={ 
 
@@ -49,6 +51,47 @@ module.exports={
 
 
         }
+    },
+
+        elementlocated: function (type, element) {
+            switch (type) {
+                case "css":
+                    return driver.wait(until.elementLocated(webdriver.By.css(element)), 5000);
+                case "id":
+                    return driver.wait(until.elementLocated(webdriver.By.id(element)), 5000);
+                case "xpath":
+                    return driver.browser.wait(until.elementLocated(webdriver.By.xpath(element)), 5000);
+                case "linkText":
+                    return driver.browser.wait(until.elementLocated(webdriver.By.linkText(element)), 5000);
+                case "name":
+                    return driver.browser.wait(until.elementLocated(webdriver.By.name(element)), 5000);
+                case "class":
+                    return driver.browser.wait(until.elementLocated(webdriver.By.className(element)), 5000);
+                default:
+                    return driver.browser.wait(until.elementLocated(webdriver.By.id(element)), 5000);
+            }
+    },
+
+
+    elementpresent:function (type, element){
+        driver.wait(function () {
+            switch(type) {
+                case "css":
+                    return driver.isElementPresent(webdriver.By.css(element));
+                case "id":
+                    return driver.isElementPresent(webdriver.By.id(element));
+                case "xpath":
+                    return driver.isElementPresent(webdriver.By.xpath(element));
+                case "linkText":
+                    return driver.isElementPresent(webdriver.By.linkText(element));
+                case "name":
+                    return driver.isElementPresent(webdriver.By.name(element));
+                case "class":
+                    return driver.isElementPresent(webdriver.By.className(element));
+                default:
+                    return driver.isElementPresent(webdriver.By.id(element));
+            }
+        }, timeout);
     },
 
 

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "login": "mocha tests/login.js",
+    "testing": "mocha tests/testing.js",
     "createUser": "mocha tests/createUser.js",
     "registerBusiness": "mocha tests/registerBuisiness.js"
   },

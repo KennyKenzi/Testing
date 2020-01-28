@@ -24,17 +24,36 @@ getURL: async (url)=>{
     .then(()=>{
         return driver.getCurrentUrl();
     })
-
-
+    .then((res)=>{
+        assert.equal(res, url)
+        return res
+    })
+    // .catch((e)=>{
+    //     console.log('e for url==', e)
+    //     return 'Failed'
+    // })
 },
 
+passedTest: async(title)=>{
+        return{
+            Step: title,
+            Status: "Pass"
+        }
+},
+failedTest: async(title, error)=>{
+    return{
+        Step: title,
+        Status: "Failed",
+        Reason: error
+    }
+},
 
 
 //gets the title of current page, takes in the title arg asserts a comparison
 checkTitle: async(title)=>{
     await  driver.executeScript("return document.title;")
             .then(function(return_value){
-                assert.equal(return_value, arg)             
+                assert.equal(return_value, title)             
             })
 },
 
@@ -51,12 +70,14 @@ findElement: async(type, element)=>{
     await helper.findElement(type, element)  
 }, 
 
+
 findText: async(type, element, text)=>{
     await helper.findElement(type, element).getText()
     .then((return_value)=>{
-        assert.equal(return_value, text) 
-            //console.log('=>',return_value)      
-})},
+        assert.equal(return_value, text)
+        console.log('=>',return_value)
+    })       
+},
 
 
 //arg1: elementtype, eg. css, id, xpath; arg2: element;  arg3: text
@@ -79,18 +100,24 @@ wait: async(time)=>{
     await driver.sleep(time)
 },
 
-findElements: async(type, element)=>{
-    
-    // var main = await helper.findElement(type, element)
-    // //console.log('main=>',main)
-    var children = await helper.findElements(type, element).
-    console.log('children=>',children)
-    
 
+
+
+getCurrentDateandTime: ()=>{
+    convert = (value)=>{  
+        if(value.toString().length === 1){
+            return '0'+ value
+        }else{
+            return value
+        }
+    }
+
+    currentdate = new Date();
+    return {
+        date: `${convert(currentdate.getDate())}:${convert(currentdate.getMonth()+1)}:${convert(currentdate.getFullYear())}`,
+        time: `${convert(currentdate.getHours())}:${convert(currentdate.getMinutes())}:${convert(currentdate.getSeconds())}`
+    }
 }
-
-
-
 
 
 //end of module.exports
