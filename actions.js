@@ -12,14 +12,13 @@ module.exports={
 
 //launchbrowser
 launchBrowser: async ()=>{
-     driver = await initDrive.initiateDriver()
-    //  driver.manage().window().maximize
+    driver = await initDrive.initiateDriver()
+    driver.manage().window().maximize()
    //driver = await new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
 },
 
 
 getURL: async (url)=>{
-    
     await driver.get(url)
     .then(()=>{
         return driver.getCurrentUrl();
@@ -28,28 +27,6 @@ getURL: async (url)=>{
         assert.equal(res, url)
         return res
     })
-    // .catch((e)=>{
-    //     console.log('e for url==', e)
-    //     return 'Failed'
-    // })
-},
-
-
-//just to test saving test cases
-createTestObject:(testarr)=>{
-    var data = []
-
-    testarr.forEach(element => {
-        obj = {
-            title: element.title,
-            duration: element.duration,
-            status: element.state,
-            // message: element.err.message
-       }
-       data.push(obj)
-    });
-    console.log('tests=====>', data)
-
 },
 
 
@@ -79,12 +56,11 @@ findText: async(type, element, text)=>{
     await helper.findElement(type, element).getText()
     .then((return_value)=>{
         assert.equal(return_value, text)
-        console.log('=>',return_value)
+        // console.log('=>',return_value)
     })       
 },
 
 
-//arg1: elementtype, eg. css, id, xpath; arg2: element;  arg3: text
 enterText:async(type, element, text)=>{
     //driver.manage().timeouts().implicitlyWait(100)
     await helper.findElement(type, element).sendKeys(text)
@@ -92,19 +68,20 @@ enterText:async(type, element, text)=>{
 },
 
 
-//arg1: elementtype, eg. css, id, xpath; arg2: element; 
 clickElement:async(type, element)=>{
     driver.sleep(20000)
     //driver.manage().timeouts().implicitlyWait(100)
-    await helper.findElement(type, element).click()
-    
+    await helper.findElement(type, element).click() 
 },
+
+// selectElementByVisibleText: async(type, element, text)=>{
+//     var dropdown = await helper.findElement(type, element)
+//     await dropdown.selectByVisibleText(text)
+// },
 
 wait: async(time)=>{
     await driver.sleep(time)
 },
-
-
 
 getCurrentDateandTime: ()=>{
     convert = (value)=>{  
@@ -114,14 +91,64 @@ getCurrentDateandTime: ()=>{
             return value
         }
     }
-
     currentdate = new Date();
     return {
         date: `${convert(currentdate.getDate())}:${convert(currentdate.getMonth()+1)}:${convert(currentdate.getFullYear())}`,
         time: `${convert(currentdate.getHours())}:${convert(currentdate.getMinutes())}:${convert(currentdate.getSeconds())}`
     }
-}
+},
 
+getCurrentDateandTimeString: ()=>{
+    convert = (value)=>{  
+        if(value.toString().length === 1){
+            return '0'+ value
+        }else{
+            return value
+        }
+    }
+    currentdate = new Date();
+    return {
+        date: `${currentdate.getDate()}${currentdate.getMonth()+1}${currentdate.getFullYear()}`,
+        time: `${currentdate.getHours()}${currentdate.getMinutes()}${currentdate.getSeconds()}${currentdate.getMilliseconds()}`
+    }
+},
+
+
+//just to test saving test cases
+createTestObject:(testTitle, testarr, startTime, endTime, date)=>{
+    var testcases = []
+    // var testobj
+        testarr.forEach(element => {
+            if(element.err){
+                testobj = {
+                    title: element.title,
+                    duration: element.duration/1000,
+                    status: element.state,
+                    speed: element.speed,
+                    message: element.err.message
+                }
+            }else {
+                testobj = {
+                        title: element.title,
+                        duration: element.duration/1000,
+                        status: element.state,
+                        speed: element.speed,
+                        message: ''
+                }
+            }
+        // console.log(testobj)
+        testcases.push(testobj)
+    });
+    var data = {
+        id: date,
+        TestName: testTitle,
+        StartTime: startTime,
+        EndTime: endTime,
+        TestSteps: testcases   
+    }
+    console.log('tests=====>', data)
+
+}
 
 //end of module.exports
 }

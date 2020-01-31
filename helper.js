@@ -19,7 +19,6 @@ module.exports={
                 return driver.findElement(By.linkText(element));
             case "name":
                return driver.findElement(By.name(element));
-               
             case "class":
                return driver.findElement(By.className(element));
             default:

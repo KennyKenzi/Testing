@@ -7,7 +7,7 @@
     "login": "mocha tests/login.js",
     "testing": "mocha tests/testing.js",
     "createUser": "mocha tests/createUser.js",
-    "registerBusiness": "mocha tests/registerBuisiness.js"
+    "register": "mocha tests/registerBusiness.js"
   },
   "author": "",
   "license": "ISC",

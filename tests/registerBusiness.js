@@ -4,41 +4,70 @@ webdriver = require('selenium-webdriver');
 action = require('../actions')
  
 
-    describe ('Test!', function(){
-        this.timeout(50000)  
-
+    describe ('Register Business', function(){
+        this.timeout(70000) 
         
-        before('Before', async function(){
-            await action.launchBrowser()
-            console.log('Loading Test...')   
+        var startTime= action.getCurrentDateandTime()    
+        var suffix = action.getCurrentDateandTimeString().time
+
+        console.log('Loading Test...')  
+        
+        before('Before', async ()=>{
+            await action.launchBrowser() 
         });
 
-        it('Get url', async function(){
-            //console.log('Getting url...')
-            await action.getURL('http://iecr.softalliance.com');
-        // done()
+        it('Get url', async ()=>{
+            await action.getURL('http://iecr.softalliance.com/')
         });
 
-        it('Check title should be "-"', async function(){
-            await action.checkTitle('-')
-        });
-
-         it('Enter Number into Phone Number field', async function(){
-            
-            await action.enterText('name', 'phone_number', '07070505031')
+        it('Click "Register" link', async ()=>{
+            await action.clickElement('linkText', 'Register')
         });
         
-        it('Enter Pin into Pin Code field', async function(){
+        it('Enter Enter Business information', async ()=>{
+
+            //enter Business  name
+            await action.enterText('id', 'business_name', `TestBusiness_${suffix}`)
+            //Enter Business address
+            await action.enterText('id', 'business_address', `Anywhere in Lagos`)
+            //Enter email
+            await action.enterText('id', 'business_email', `business@bizizizi.com}`)
+            //Enter Phone Number
+            await action.enterText('id', 'business_phone', `090${suffix}`)
+           
+        });
+
+        it('Select Currency', async ()=>{         
+         
+            await action.clickElement('id', 'business_currency')
+            await action.wait(2000)
+            await action.clickElement('css', '#app > div.v-menu__content.theme--light.menuable__content__active.v-autocomplete__content > div > div > div:nth-child(3) > a > div > div')
             
-            await action.enterText('xpath','/html/body/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/div/div/div/form/div[2]/div[2]/div[1]/div/input', '54321')
         });
 
-         it('Click Submit', async function(){         
-            await action.clickElement('xpath', '/html/body/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/div/div/div/form/div[4]/div/button')
+        it('Enter Contact Information', async ()=>{         
+            //enter First Name
+            await action.enterText('id', 'contact_first_name', 'John')
+            //enter Last Name
+            await action.enterText('id', 'contact_last_name','Boscoe')
+            //enter Email
+            await action.enterText('id', 'contact_email', 'joe@joelien.co.za')
+            //enter Phone Number
+            await action.enterText('id', 'contact_phone', `090${suffix}`)
+             //enter PIN
+            await action.enterText('id', 'contact_password', '54321')
+              //enter PIN2
+            await action.enterText('id', 'contact_confirm_password', '54321')
+
         });
 
-        it('Wait for some time', async function(){         
-            await action.wait(3000)
+        it('Click "Submit"', async ()=>{         
+         await action.clickElement('xpath', '/html/body/div[1]/div/div[3]/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/form/div[8]/div/button/div')
+        });
+
+        it('Validate "OTP"', async ()=>{         
+            await action.enterText('id', 'otp_code', '654321')
+            await action.clickElement('xpath', '/html/body/div[1]/div/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/form/div[4]/div/button')
         });
         
         it('"Dashboard" Loaded', async function(){
@@ -47,7 +76,9 @@ action = require('../actions')
       
 
         after('After"', async function(){    
-            action.quitBrowser()
+            // endTime = action.getCurrentDateandTime()   
+            // action.quitBrowser()
+            // action.createTestObject(this._runnable.parent.title, this._runnable.parent.tests, startTime, endTime, action.getCurrentDateandTimeString().time)
         });
 
 

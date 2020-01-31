@@ -4,38 +4,39 @@ webdriver = require('selenium-webdriver');
 action = require('../actions')
  
  
-    describe ('Test!', function(){
-        this.timeout(100000)  
+    describe ('LOGIN!', function(){ 
 
-        
-        before('Before', async function(){
+        this.timeout(100000) 
+        this.slow(15000)
+        var startTime= action.getCurrentDateandTime()
+      
+        before('Before', async ()=>{
             await action.launchBrowser()  
         });
 
-        it('Get url', async function(){
-            await action.getURL('http://iecr.softalliance.com');
+        it('Get url', async ()=>{
+                await action.getURL('http://iecr.softalliance.com/')
+        });
+        
+        it('Page title should be "-"', async ()=>{
+                await action.checkTitle('-') 
         });
 
-        it('Check title should be "-"', async function(){
-            await action.checkTitle('-')
-            
-        });
+        it('"Airtill" Text should be present', async()=>{      
+                await action.findText('xpath', '//*[@id="fbody"]/div/div/div/div/div/div[1]/h1', 'Airtill') 
+        })
 
-         it('Enter Number into Phone Number field', async function(){
+         it('Enter Number into Phone Number field', async ()=>{
             await action.enterText('name', 'phone_number', '07070505031')
-            console.log('======>cuurent test name',this.test.fullTitle())
             });
         
-        it('Enter Pin into Pin Code field', async function(){
+        it('Enter Pin into Pin Code field', async ()=>{
             
             await action.enterText('xpath','/html/body/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/div/div/div/form/div[2]/div[2]/div[1]/div/input', '54321')
         });
 
-         it('Click Submit', async function(){         
+         it('Click Submit', async ()=>{         
             await action.clickElement('xpath', '/html/body/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/div/div/div/form/div[4]/div/button')
-        });
-
-        it('Wait for some time', async function(){         
             await action.wait(3000)
         });
         
@@ -43,8 +44,10 @@ action = require('../actions')
             await action.findText('css', '#base-layout > main > div > div > div > div.v-card__title.red.darken-2.white--text.v-card__title--primary > h3', 'Dashboard')
         });
 
-        after('After"', async function(){    
+        after('After"', async function(){  
+            endTime = action.getCurrentDateandTime()   
             action.quitBrowser()
+            action.createTestObject(this._runnable.parent.title, this._runnable.parent.tests, startTime, endTime, action.getCurrentDateandTimeString().time)
         });
 
 

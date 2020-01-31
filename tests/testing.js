@@ -4,19 +4,18 @@ webdriver = require('selenium-webdriver');
 action = require('../actions')
  
  
-    describe ('Login Test!', function(){
+    describe ('Test!', function(){
         
         this.timeout(100000) 
-        //var data =[{}]
-       // var startTime= action.getCurrentDateandTime()
-       // data.push(startTime)
+        var date = new Date()
+        var startTime= action.getCurrentDateandTime()
         
         before('Before', async function(){
             await action.launchBrowser()  
         });
 
         it('Get url', async function(){
-                await action.getURL('http://iecr.softalliance.com')
+                await action.getURL('http://iecr.softalliance.com/')
         });
         
         it('Page title should be "-"', async function(){
@@ -49,10 +48,9 @@ action = require('../actions')
         // });
 
         after('After"', async function(){   
-           // endTime = action.getCurrentDateandTime() 
-           // data.push(endTime)
-            action.quitBrowser()
-            action.createTestObject(this._runnable.parent.tests)
+            endTime = action.getCurrentDateandTime()             
+            await action.quitBrowser()
+            action.createTestObject(this._runnable.parent.title, this._runnable.parent.tests, startTime, endTime, date)
         });
 
         
