@@ -1,9 +1,9 @@
 var assert= require ('chai').assert;
-
 webdriver = require('selenium-webdriver');
 By = webdriver.By
 
 var initDrive = require('./config/config1')
+var apiCalls = require('./config/apis')
 var driver
 
 helper = require('./helper')
@@ -15,8 +15,26 @@ launchBrowser: async ()=>{
     driver = await initDrive.initiateDriver()
     driver.manage().window().maximize()
    //driver = await new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+    await this.initProject()
 },
 
+
+//initialize Project Name
+initProject: async()=>{
+    var Project = await initDrive.initializeProject()
+    console.log(Project)
+
+    await apiCalls.getProjectByCode(Project.projectCode)
+   .then((res)=>{
+       console.log(res.data)
+       if (res.data ==="N/A"){    
+           apiCalls.createProject(Project)
+       }else{
+          console.log('Project Exists')
+       }
+   })
+
+},
 
 getURL: async (url)=>{
     await driver.get(url)
@@ -112,6 +130,7 @@ getCurrentDateandTimeString: ()=>{
         time: `${currentdate.getHours()}${currentdate.getMinutes()}${currentdate.getSeconds()}${currentdate.getMilliseconds()}`
     }
 },
+
 
 
 //just to test saving test cases
