@@ -8,6 +8,7 @@ var driver
 
 helper = require('./helper')
 
+
 module.exports={
 
 //launchbrowser
@@ -15,26 +16,10 @@ launchBrowser: async ()=>{
     driver = await initDrive.initiateDriver()
     driver.manage().window().maximize()
    //driver = await new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
-    await this.initProject()
+    await initProject()
 },
 
 
-//initialize Project Name
-initProject: async()=>{
-    var Project = await initDrive.initializeProject()
-    console.log(Project)
-
-    await apiCalls.getProjectByCode(Project.projectCode)
-   .then((res)=>{
-       console.log(res.data)
-       if (res.data ==="N/A"){    
-           apiCalls.createProject(Project)
-       }else{
-          console.log('Project Exists')
-       }
-   })
-
-},
 
 getURL: async (url)=>{
     await driver.get(url)
@@ -172,3 +157,20 @@ createTestObject:(testTitle, testarr, startTime, endTime, date)=>{
 //end of module.exports
 }
 
+
+//initialize Project Name
+var initProject = async()=>{
+    var Project = await initDrive.initializeProject()
+    console.log(Project)
+
+    await apiCalls.getProjectByCode(Project.projectCode)
+   .then((res)=>{
+       console.log(res.data)
+       if (res.data ==="N/A"){    
+           apiCalls.createProject(Project)
+       }else{
+          console.log('Project Exists')
+       }
+   })
+
+}
