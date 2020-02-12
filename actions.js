@@ -8,6 +8,7 @@ var driver
 
 helper = require('./helper')
 
+var Project = initDrive.initializeProject()
 
 module.exports={
 
@@ -119,7 +120,7 @@ getCurrentDateandTimeString: ()=>{
 
 
 //just to test saving test cases
-createTestObject:(testTitle, testarr, startTime, endTime, date)=>{
+createTestObject: async(testTitle, testarr, startTime, endTime, date)=>{
     var testcases = []
     // var testobj
         testarr.forEach(element => {
@@ -144,14 +145,14 @@ createTestObject:(testTitle, testarr, startTime, endTime, date)=>{
         testcases.push(testobj)
     });
     var data = {
-        id: date,
-        TestName: testTitle,
-        StartTime: startTime,
-        EndTime: endTime,
-        TestSteps: testcases   
+        projectCode: Project.projectCode,
+        testName: testTitle,
+        startTime: startTime,
+        endTime: endTime,
+        testSteps: testcases   
     }
     console.log('tests=====>', data)
-
+    await apiCalls.createTestcase(data)
 }
 
 //end of module.exports
@@ -160,7 +161,7 @@ createTestObject:(testTitle, testarr, startTime, endTime, date)=>{
 
 //initialize Project Name
 var initProject = async()=>{
-    var Project = await initDrive.initializeProject()
+
     console.log(Project)
 
     await apiCalls.getProjectByCode(Project.projectCode)
