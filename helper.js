@@ -1,7 +1,7 @@
 webdriver = require('selenium-webdriver');
 By = webdriver.By
 var until = require('selenium-webdriver').until;
-
+var time = 5000
 
 module.exports={ 
 
@@ -52,7 +52,7 @@ module.exports={
         }
     },
 
-        elementlocated: function (type, element) {
+        elementLocated: function (type, element) {
             switch (type) {
                 case "css":
                     return driver.wait(until.elementLocated(webdriver.By.css(element)), 5000);
@@ -72,7 +72,7 @@ module.exports={
     },
 
 
-    elementpresent:function (type, element){
+    elementPresent:function (type, element){
         driver.wait(function () {
             switch(type) {
                 case "css":
@@ -90,7 +90,7 @@ module.exports={
                 default:
                     return driver.isElementPresent(webdriver.By.id(element));
             }
-        }, timeout);
+        }, 5000);
     },
 
 

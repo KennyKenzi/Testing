@@ -8,14 +8,16 @@ var driver
 
 helper = require('./helper')
 
-var Project = initDrive.initializeProject()
+var Project 
+var tempTime= 100000
 
 module.exports={
 
 //launchbrowser
 launchBrowser: async ()=>{
     driver = await initDrive.initiateDriver()
-    driver.manage().window().maximize()
+    //driver.manage().window().maximize()
+    //driver.manage().timeouts().implicitlyWait(15,TimeUnit.SECONDS)
    //driver = await new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
     await initProject()
 },
@@ -51,17 +53,24 @@ quitBrowser: ()=>{
 
 //find element
 findElement: async(type, element)=>{
-    driver.sleep(20000)
-    await helper.findElement(type, element)  
+    await driver.wait(()=>{
+        return helper.elementPresent(type, element)
+    }) 
 }, 
 
 
 findText: async(type, element, text)=>{
-    await helper.findElement(type, element).getText()
-    .then((return_value)=>{
-        assert.equal(return_value, text)
-        // console.log('=>',return_value)
-    })       
+
+    await driver.wait(async()=>{ 
+       
+        await helper.findElement(type, element).getText()
+        .then((return_value)=>{
+            assert.equal(return_value, text)
+            // console.log('=>',return_value)
+        })
+
+    }, 5000) 
+          
 },
 
 
@@ -73,8 +82,10 @@ enterText:async(type, element, text)=>{
 
 
 clickElement:async(type, element)=>{
-    driver.sleep(20000)
-    //driver.manage().timeouts().implicitlyWait(100)
+    // await driver.wait(async()=>{
+    //     await helper.elementPresent(type, element)
+    // }, 10000) 
+
     await helper.findElement(type, element).click() 
 },
 
@@ -151,7 +162,7 @@ createTestObject: async(testTitle, testarr, startTime, endTime, date)=>{
         endTime: endTime,
         testSteps: testcases   
     }
-    console.log('tests=====>', data)
+   // console.log('tests=====>', data)
     await apiCalls.createTestcase(data)
 }
 
@@ -161,12 +172,12 @@ createTestObject: async(testTitle, testarr, startTime, endTime, date)=>{
 
 //initialize Project Name
 var initProject = async()=>{
-
-    console.log(Project)
+    Project = await initDrive.initializeProject()
+    //console.log(Project)
 
     await apiCalls.getProjectByCode(Project.projectCode)
    .then((res)=>{
-       console.log(res.data)
+     //  console.log(res.data)
        if (res.data ==="N/A"){    
            apiCalls.createProject(Project)
        }else{

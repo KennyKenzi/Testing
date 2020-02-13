@@ -5,26 +5,27 @@ action = require('../actions')
  
 
     describe ('Register Business', function(){
-        this.timeout(70000) 
         
-        var startTime= action.getCurrentDateandTime()    
-        var suffix = action.getCurrentDateandTimeString().time
 
-        console.log('Loading Test...')  
+        this.timeout(100000) 
+        this.slow(15000)
+        var startTime= action.getCurrentDateandTime()    
+        var suffix = action.getCurrentDateandTimeString().time 
         
         before('Before', async ()=>{
             await action.launchBrowser() 
         });
 
-        it('Get url', async ()=>{
+        it('Get url', async (cb)=>{
             await action.getURL('http://iecr.softalliance.com/')
+            cb()
         });
 
         it('Click "Register" link', async ()=>{
             await action.clickElement('linkText', 'Register')
         });
         
-        it('Enter Enter Business information', async ()=>{
+        it('Enter Business information', async ()=>{
 
             //enter Business  name
             await action.enterText('id', 'business_name', `TestBusiness_${suffix}`)
@@ -65,7 +66,8 @@ action = require('../actions')
          await action.clickElement('xpath', '/html/body/div[1]/div/div[3]/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/form/div[8]/div/button/div')
         });
 
-        it('Validate "OTP"', async ()=>{         
+        it('Validate "OTP"', async ()=>{  
+            await action.wait(2000)
             await action.enterText('id', 'otp_code', '654321')
             await action.clickElement('xpath', '/html/body/div[1]/div/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/form/div[4]/div/button')
         });
@@ -77,7 +79,7 @@ action = require('../actions')
 
         after('After"', async function(){    
             // endTime = action.getCurrentDateandTime()   
-            // action.quitBrowser()
+            // await action.quitBrowser()
             // action.createTestObject(this._runnable.parent.title, this._runnable.parent.tests, startTime, endTime, action.getCurrentDateandTimeString().time)
         });
 

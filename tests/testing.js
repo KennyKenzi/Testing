@@ -7,11 +7,16 @@ action = require('../actions')
     describe ('Test!', function(){
         
         this.timeout(100000) 
-        var date = new Date()
+        this.slow(15000)
         var startTime= action.getCurrentDateandTime()
         
         before('Before', async function(){
             await action.launchBrowser()  
+            
+        });
+
+        it('TRIAL STEP', async function(){
+            console.log('TESTING!!!!')
         });
 
         it('Get url', async function(){
@@ -38,14 +43,10 @@ action = require('../actions')
          it('Click Submit', async function(){         
             await action.clickElement('xpath', '/html/body/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/div/div/div/form/div[4]/div/button')
         });
-
-        // it('Wait for some time', async function(){         
-        //     await action.wait(3000)
-        // });
         
-        // it('"Dashboard" Loaded', async function(){
-        //     await action.findText('css', '#base-layout > main > div > div > div > div.v-card__title.red.darken-2.white--text.v-card__title--primary > h3', 'Dashboard')
-        // });
+        it('"Dashboard" Loaded', async function(){
+            await action.findText('css', '#base-layout > main > div > div > div > div.v-card__title.red.darken-2.white--text.v-card__title--primary > h3', 'Dashboard')
+        });
 
         after('After"', async function(){   
             endTime = action.getCurrentDateandTime()             

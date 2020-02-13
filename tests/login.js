@@ -15,11 +15,11 @@ action = require('../actions')
         });
 
         it('Get url', async ()=>{
-                await action.getURL('http://iecr.softalliance.com/')
+            await action.getURL('http://iecr.softalliance.com/')
         });
         
         it('Page title should be "-"', async ()=>{
-                await action.checkTitle('-') 
+            await action.checkTitle('-') 
         });
 
         it('"Airtill" Text should be present', async()=>{      
