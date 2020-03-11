@@ -1,1 +1,1 @@
-readme chck ip3
+readme chck ip4
